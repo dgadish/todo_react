@@ -6,6 +6,12 @@ import FilterButton from './components/FilterButton';
 
 function App(props) {
 
+  // callback prop that takes data from a form (user input) and passes it to a component <Form /> as a prop
+  function addTask(name) {
+    alert(name);
+  }
+
+  // create list of tasks based on <Todo /> component and the tasks rendered in index.js
   const taskList = props.tasks.map(task => (
     <Todo 
       id={task.id} 
@@ -18,7 +24,7 @@ function App(props) {
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
-      <Form />
+      <Form addTask={addTask} /> {/* Create input form, utilising the 'addTask' function to allow the user input to be passed as a prop to <Form /> */}
       <div className="filters btn-group stack-exception">
         <FilterButton />
         <FilterButton />
@@ -32,7 +38,7 @@ function App(props) {
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading"
       >
-        {taskList}
+        {taskList} {/* call the task list from the tasklist variable */}
       </ul>
     </div>
   );

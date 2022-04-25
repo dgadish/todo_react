@@ -1,8 +1,25 @@
-import React from "react";
+import React, {useState} from "react";
 
 export default function Form(props) {
+
+    const [name, setName] = useState(''); // sets state that can be tracked within component
+
+    // function for collecting form input
+    function handleChange(e) {
+        // console.log(e.target.value) --> sends input from form to console
+        setName(e.target.value) //sets form input as what user types
+    }
+
+    // function triggered by submitting form
+    function handleSubmit(e) {
+        e.preventDefault();
+        props.addTask(name);
+        setName("")
+    }
+
+    // return a form for submitting tasks
     return (
-        <form>
+        <form onSubmit={handleSubmit}> {/* calls the 'handleSubmit' function when form submitted */}
         <h2 className="label-wrapper">
           <label htmlFor="new-todo-input" className="label__lg">
             What needs to be done?
@@ -14,6 +31,8 @@ export default function Form(props) {
           className="input input__lg"
           name="text"
           autoComplete="off"
+          value={name} // value in form is equal to user input
+          onChange={handleChange} // when there is a change in the input the 'handleChange' function is called
         />
         <button type="submit" className="btn btn__primary btn__lg">
           Add

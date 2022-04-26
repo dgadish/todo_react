@@ -28,6 +28,11 @@ function App(props) {
     setTasks(updatedTasks)
   }
 
+  // delete task whose delete button was clicked by filtering tasks array for tasks whose id doesn't match
+  function deleteTask(id) {
+    const remainingTasks = tasks.filter(task => id !== task.id);
+    setTasks(remainingTasks);
+  }
 
   // create list of tasks based on <Todo /> component and the tasks rendered in index.js
   const taskList = tasks.map(task => (
@@ -37,6 +42,7 @@ function App(props) {
       completed={task.completed}
       key={task.id} 
       toggleTaskCompleted={toggleTaskCompleted}
+      deleteTask={deleteTask}
     />
   ));
 

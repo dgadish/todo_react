@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Todo from './components/Todo';
 import Form from './components/Form';
 import FilterButton from './components/FilterButton';
+import { nanoid } from 'nanoid'; 
 
 
 function App(props) {
 
-  // callback prop that takes data from a form (user input) and passes it to a component <Form /> as a prop
+  const [tasks, setTasks] = useState(props.tasks); //preserves initial state of props.tasks from index.js
+
+  // callback function triggered when someone submits an entry in the add task form
   function addTask(name) {
-    alert(name);
+    const newTask = { id: "todo-" + nanoid(), name: name, completed: false }; // creates the new task
+    setTasks([...tasks, newTask]); // adds new task to tasks array ('...tasks' copies existing array 'tasks')
   }
 
   // create list of tasks based on <Todo /> component and the tasks rendered in index.js
-  const taskList = props.tasks.map(task => (
+  const taskList = tasks.map(task => (
     <Todo 
       id={task.id} 
       name={task.name} 
@@ -34,11 +38,10 @@ function App(props) {
         3 tasks remaining
       </h2>
       <ul
-        role="list"
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading"
       >
-        {taskList} {/* call the task list from the tasklist variable */}
+        {taskList} {/* renders the list created in the tasklist variable */}
       </ul>
     </div>
   );

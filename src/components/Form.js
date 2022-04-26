@@ -10,11 +10,11 @@ export default function Form(props) {
         setName(e.target.value) //sets form input as what user types
     }
 
-    // function triggered by submitting form
+    // if input isn't blank, call the addTask function from Apps.js
     function handleSubmit(e) {
         e.preventDefault();
         if (name != "") {
-          props.addTask(name);
+          props.addTask(name); 
           setName("");
         }
         else {

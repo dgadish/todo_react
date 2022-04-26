@@ -31,6 +31,7 @@ export default function Form(props) {
           className="input input__lg"
           name="text"
           autoComplete="off"
+          placeholder="add new task" //add hint/ placeholder
           value={name} // value in form is equal to user input
           onChange={handleChange} // when there is a change in the input the 'handleChange' function is called
         />

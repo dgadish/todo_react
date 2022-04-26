@@ -13,7 +13,7 @@ export default function Form(props) {
     // if input isn't blank, call the addTask function from Apps.js
     function handleSubmit(e) {
         e.preventDefault();
-        if (name != "") {
+        if (name !== "") {
           props.addTask(name); 
           setName("");
         }

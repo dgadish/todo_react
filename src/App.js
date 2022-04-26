@@ -25,6 +25,9 @@ function App(props) {
     />
   ));
 
+  const tasksNoun = taskList.length !== 1 ? 'tasks' : 'task'; // if taskList.length is 1, use 'task', otherwise use 'tasks'
+  const headingText = `${taskList.length} ${tasksNoun} remaining`; // variable for dynamic list length count
+
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
@@ -35,7 +38,7 @@ function App(props) {
         <FilterButton />
       </div>
       <h2 id="list-heading">
-        3 tasks remaining
+        {headingText}
       </h2>
       <ul
         className="todo-list stack-large stack-exception"

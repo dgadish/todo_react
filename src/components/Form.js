@@ -13,8 +13,13 @@ export default function Form(props) {
     // function triggered by submitting form
     function handleSubmit(e) {
         e.preventDefault();
-        props.addTask(name);
-        setName("")
+        if (name != "") {
+          props.addTask(name);
+          setName("");
+        }
+        else {
+          alert("Please enter a task before submitting");
+        }
     }
 
     // return a form for submitting tasks

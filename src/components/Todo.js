@@ -11,9 +11,14 @@ export default function Todo(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.editTask(props.id, newName);
-    setNewName("");
-    setEditing(false);
+    if (newName !== "") {
+        props.editTask(props.id, newName);
+        setNewName("");
+        setEditing(false);
+    }
+    else {
+        alert("Please add a new name before updating");
+    }
   }
 
   // template for when editing a task

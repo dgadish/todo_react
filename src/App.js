@@ -9,13 +9,13 @@ function App(props) {
 
   const [tasks, setTasks] = useState(props.tasks); //preserves initial state of props.tasks from index.js
 
-  // callback function triggered when someone submits an entry in the add task form
+  // add task to the task list
   function addTask(name) {
     const newTask = { id: "todo-" + nanoid(), name: name, completed: false }; // creates the new task
     setTasks([...tasks, newTask]); // adds new task to tasks array ('...tasks' copies existing array 'tasks')
   }
   
-  // function change the completed property of the task that was toggled
+  // toggle completed state
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map(task => {
       // if this task has the same id as the eddited task
@@ -26,6 +26,18 @@ function App(props) {
       return task;
     });
     setTasks(updatedTasks)
+  }
+
+  // edit name of existing task
+  function editTask(id, newName) {
+    const editedTaskList = tasks.map(task => {
+    // if this task has the same ID as the edited task
+      if (id === task.id) {
+        return {...task, name: newName}
+      }
+      return task;
+    });
+    setTasks(editedTaskList);
   }
 
   // delete task whose delete button was clicked by filtering tasks array for tasks whose id doesn't match
@@ -43,6 +55,7 @@ function App(props) {
       key={task.id} 
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}
+      editTask={editTask}
     />
   ));
 

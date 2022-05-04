@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Todo from './components/Todo';
 import Form from './components/Form';
 import FilterButton from './components/FilterButton';
 import { nanoid } from 'nanoid'; 
+import usePrevious from './components/UsePrevious';
 
 // filter functions defined outside of app as these will not change, don't want to recalculate every time the app loads
 // create function mapping for the filters
@@ -84,13 +85,28 @@ function App(props) {
   const tasksNoun = taskList.length !== 1 ? 'tasks' : 'task'; // if taskList.length is 1, use 'task', otherwise use 'tasks'
   const headingText = `${taskList.length} ${tasksNoun} remaining`; // variable for dynamic list length count
 
+  const listHeadingRef = useRef(null); // use to change focus to the list header
+  const prevTaskLength = usePrevious(tasks.length); // store previous state of tasks.length
+
+  // if a task is deleted, refocus to the task list heading
+  // only run when there is a change to tasks.length or prevTaskLength
+  useEffect(() => {
+    if (tasks.length - prevTaskLength === -1) {
+      listHeadingRef.current.focus();
+    }
+  }, [tasks.length, prevTaskLength]);
+
   return (
     <div className="todoapp stack-large">
-      <Form addTask={addTask} /> {/* Create input form, utilising the 'addTask' function to allow the user input to be passed as a prop to <Form /> */}
+      <Form addTask={addTask} /> {/* Create input form, utilising the 'addTask' function to allow the user input to be passed as a prop to <Form />*/}
       <div className="filters btn-group stack-exception">
         {filterList}
       </div>
-      <h2 id="list-heading">
+      <h2 
+        id="list-heading"
+        tabIndex="-1" // allow tab to the heading via js
+        ref={listHeadingRef}
+      >
         {headingText}
       </h2>
       <ul

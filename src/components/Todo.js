@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import usePrevious from "./UsePrevious";
 
 export default function Todo(props) {
 
   const [isEditing, setEditing] = useState(false);
-  const [newName, setNewName] = useState('');
+  const [newName, setNewName] = useState(''); 
+  const editFieldRef = useRef(null); // used to change focus to the edit field
+  const editButtonRef = useRef(null); // used to change focus to the edit button
+  const wasEditing = usePrevious(isEditing); // store's previous state of isEditing
 
   function handleChange(e) {
     setNewName(e.target.value);
@@ -34,6 +38,7 @@ export default function Todo(props) {
           type="text"
           value={newName}
           onChange={handleChange}
+          ref={editFieldRef}
         />
       </div>
       <div className="btn-group">
@@ -72,6 +77,7 @@ export default function Todo(props) {
             type="button" 
             className="btn"
             onClick={() => setEditing(true)} // switch to edit template when clicked
+            ref={editButtonRef}
           >
             Edit <span className="visually-hidden">{props.name}</span>
           </button>
@@ -85,6 +91,18 @@ export default function Todo(props) {
         </div>
     </div>
   );
+
+  // If isEditing = 'true', change focus to edit field
+  // If isEditing = 'false' change focus to edit button 
+  // Only runs when value of isEditing changes
+  useEffect(() => {
+      if (!wasEditing && isEditing) {
+          editFieldRef.current.focus();
+      }
+      else if (wasEditing && !isEditing) {
+        editButtonRef.current.focus();
+      }
+    }, [wasEditing, isEditing]);
 
   // return a list item view using a ternary operator to switch between view and and editing
   return (

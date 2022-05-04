@@ -7,9 +7,9 @@ import { nanoid } from 'nanoid';
 // filter functions defined outside of app as these will not change, don't want to recalculate every time the app loads
 // create function mapping for the filters
 const FILTER_MAP = {
-  ALL: () => true,
-  ACTIVE: task => !task.completed,
-  COMPLETED: task => task.completed
+  All: () => true,
+  Active: task => !task.completed,
+  Completed: task => task.completed
 };
 
 // collect an array of filter names
@@ -18,7 +18,7 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 function App(props) {
 
   const [tasks, setTasks] = useState(props.tasks); //preserves initial state of props.tasks from index.js
-  const [filter, setFilter] = useState('ALL'); // set default state for tasks filter
+  const [filter, setFilter] = useState('All'); // set default state for tasks filter
   
   // toggle completed state
   function toggleTaskCompleted(id) {
